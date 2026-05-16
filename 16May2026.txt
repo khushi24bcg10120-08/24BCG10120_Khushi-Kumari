@@ -1,0 +1,64 @@
+SHOW DATABASES;
+
+CREATE DATABASE VITCampus1;
+
+USE VITCampus1;
+
+-- Create CSE Table
+CREATE TABLE CSE(
+    sid INT,
+    sname VARCHAR(50),
+    smarks INT,
+    sgrade VARCHAR(5)
+);
+
+-- Create MECH Table
+CREATE TABLE Mech(
+    sid INT,
+    sname VARCHAR(50),
+    smarks INT,
+    sgrade VARCHAR(5)
+);
+
+-- Create EEE Table
+CREATE TABLE EEE(
+    sid INT,
+    sname VARCHAR(50),
+    smarks INT,
+    sgrade VARCHAR(5)
+);
+
+-- Insert 5 Records into CSE Table
+INSERT INTO CSE VALUES
+(101, 'Kiran', 99, 'A+'),
+(102, 'Rahul', 85, 'A'),
+(103, 'Sneha', 78, 'B+'),
+(104, 'Aman', 67, 'B'),
+(105, 'Khushi', 95, 'O');
+
+-- Insert 5 Records into MECH Table
+INSERT INTO Mech VALUES
+(201, 'Ravi', 88, 'A'),
+(202, 'Pooja', 92, 'A+'),
+(203, 'Nitin', 74, 'B+'),
+(204, 'Anjali', 69, 'B'),
+(205, 'Rohan', 81, 'A');
+
+-- Insert 5 Records into EEE Table
+INSERT INTO EEE VALUES
+(301, 'Simran', 91, 'A+'),
+(302, 'Arjun', 84, 'A'),
+(303, 'Priya', 76, 'B+'),
+(304, 'Vikas', 65, 'B'),
+(305, 'Neha', 89, 'A');
+
+-- Show Tables
+SHOW TABLES FROM VITCampus1;
+
+-- Display Data
+SELECT * FROM CSE;
+
+SELECT * FROM Mech;
+
+SELECT * FROM EEE;
+ 
