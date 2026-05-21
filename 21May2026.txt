@@ -1,0 +1,86 @@
+SELECT * FROM worker;
+
+SELECT first_name, salary 
+FROM worker
+WHERE department = 'Admin'
+ORDER BY salary DESC;
+
+
+
+-- GROUP BY
+
+SELECT COUNT(worker_id) 
+FROM worker
+WHERE department = 'Admin'
+OR department = 'HR';
+
+
+
+SELECT department, COUNT(department) 
+FROM worker
+GROUP BY department
+ORDER BY department ASC;
+
+
+
+SELECT department, SUM(salary)
+FROM worker
+GROUP BY department;
+
+
+
+SELECT department, COUNT(department) 
+FROM worker
+GROUP BY department
+HAVING COUNT(department) >= 3
+ORDER BY department ASC;
+
+
+
+SELECT department, SUM(salary)
+FROM worker
+GROUP BY department
+HAVING SUM(salary) <= 300000;
+
+
+
+SELECT * 
+FROM worker
+LIMIT 2 OFFSET 3;
+
+
+
+SELECT first_name, department 
+FROM worker
+WHERE worker_id IN (
+    SELECT id 
+    FROM toppers
+);
+
+
+
+SELECT department, AVG(salary)
+FROM worker
+GROUP BY department
+ORDER BY AVG(salary) ASC
+LIMIT 2;
+
+
+
+SELECT first_name, salary
+FROM worker
+WHERE department = 'Admin'
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+
+
+
+SELECT first_name, department, salary
+FROM worker w1
+WHERE salary = (
+    SELECT DISTINCT salary
+    FROM worker w2
+    WHERE w1.department = w2.department
+    ORDER BY salary DESC
+    LIMIT 1 OFFSET 1
+);
