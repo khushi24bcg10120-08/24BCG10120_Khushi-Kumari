@@ -1,0 +1,220 @@
+1. List the Employee Name, their Department Name, and the Location Name for all employees.
+
+
+SELECT E.employee_name, D.dept_name, D.location_id
+FROM Employees E
+JOIN Departments D
+ON E.dept_id = D.dept_id;
+
+
+2. Retrieve the Project Name, Client Name, and the Total Hours Worked on that project, but only for projects managed by the 'Consulting' department.
+
+
+SELECT P.project_name, P.client_name,
+SUM(A.hours_worked) AS Total_Hours
+FROM Projects P
+JOIN Assignments A
+ON P.project_id = A.project_id
+JOIN Departments D
+ON P.dept_id = D.dept_id
+WHERE D.dept_name='Consulting'
+GROUP BY P.project_name, P.client_name;
+
+
+3. Find the names of Employees who have worked on a project with Client Name 'GlobalTech Solutions'. List the Employee Name and Project Name.
+
+
+SELECT E.employee_name, P.project_name
+FROM Employees E
+JOIN Assignments A
+ON E.employee_id = A.employee_id
+JOIN Projects P
+ON A.project_id = P.project_id
+WHERE P.client_name='GlobalTech Solutions';
+
+
+4. List all Departments that have no Employees currently assigned to them.
+
+
+SELECT D.dept_name
+FROM Departments D
+LEFT JOIN Employees E
+ON D.dept_id = E.dept_id
+WHERE E.employee_id IS NULL;
+
+
+5. Calculate the Average Hours Worked per Employee across all projects. List the Employee Name and the average hours.
+
+
+SELECT E.employee_name,
+AVG(A.hours_worked) AS Average_Hours
+FROM Employees E
+JOIN Assignments A
+ON E.employee_id = A.employee_id
+GROUP BY E.employee_name;
+
+
+6. Find the Department Name(s) that have an average salary above the company-wide average salary.
+
+
+SELECT D.dept_name
+FROM Employees E
+JOIN Departments D
+ON E.dept_id = D.dept_id
+GROUP BY D.dept_name
+HAVING AVG(E.salary) >
+(
+SELECT AVG(salary)
+FROM Employees
+);
+
+
+7. Identify the Client Name(s) whose projects have a total combined hours worked exceeding 500 hours.
+
+
+SELECT P.client_name
+FROM Projects P
+JOIN Assignments A
+ON P.project_id = A.project_id
+GROUP BY P.client_name
+HAVING SUM(A.hours_worked) > 500;
+
+
+8. Write a query to list the Employee Name and Project Name for any employee who has worked less than 10 hours on a project.
+
+
+SELECT E.employee_name, P.project_name
+FROM Employees E
+JOIN Assignments A
+ON E.employee_id = A.employee_id
+JOIN Projects P
+ON A.project_id = P.project_id
+WHERE A.hours_worked < 10;
+
+
+9. Find the Project Name(s) that have no assigned employees.
+
+
+SELECT P.project_name
+FROM Projects P
+LEFT JOIN Assignments A
+ON P.project_id = A.project_id
+WHERE A.assignment_id IS NULL;
+
+
+10. Find the Employee Name and their oldest project start date.
+
+
+SELECT E.employee_name,
+MIN(A.start_date) AS Oldest_Date
+FROM Employees E
+JOIN Assignments A
+ON E.employee_id = A.employee_id
+GROUP BY E.employee_name;
+
+
+11. Write a MySQL query using the DATE_FORMAT function to list all projects that were active in the year 2023
+
+
+SELECT *
+FROM Projects
+WHERE DATE_FORMAT(start_date,'%Y')='2023';
+
+
+12. Use the MySQL-specific IFNULL function to list all Employee Names. If an employee has no manager, display "CEO" instead of NULL.
+
+
+SELECT employee_name,
+IFNULL(CAST(manager_id AS CHAR),'CEO') AS Manager
+FROM Employees;
+
+
+13. Find the top 3 Departments based on the total hours worked by all their employees across all projects.
+
+
+SELECT D.dept_name,
+SUM(A.hours_worked) AS Total_Hours
+FROM Departments D
+JOIN Employees E
+ON D.dept_id = E.dept_id
+JOIN Assignments A
+ON E.employee_id = A.employee_id
+GROUP BY D.dept_name
+ORDER BY Total_Hours DESC
+LIMIT 3;
+
+
+14. Display the Project Name and a status ("High Activity" if total hours > 300, "Normal" otherwise) using the CASE statement.
+
+
+SELECT P.project_name,
+CASE
+WHEN SUM(A.hours_worked) > 300
+THEN 'High Activity'
+ELSE 'Normal'
+END AS Status
+FROM Projects P
+JOIN Assignments A
+ON P.project_id = A.project_id
+GROUP BY P.project_name;
+
+
+15. List the Employee Name and their Manager's Name.
+
+
+SELECT E.employee_name,
+M.employee_name AS Manager_Name
+FROM Employees E
+LEFT JOIN Employees M
+ON E.manager_id = M.employee_id;
+
+
+16. Write a query using a Common Table Expression (CTE) to find the Project Name and the number of unique employees assigned to it.
+
+
+WITH Project_Count AS
+(
+SELECT project_id,
+COUNT(DISTINCT employee_id) AS Total_Employees
+FROM Assignments
+GROUP BY project_id
+)
+
+SELECT P.project_name,
+PC.Total_Employees
+FROM Projects P
+JOIN Project_Count PC
+ON P.project_id = PC.project_id;
+
+
+Q17. Find the Employee Name(s) who are assigned to the same projects as Employee ID 101.
+
+
+SELECT DISTINCT E.employee_name
+
+FROM Employees E
+JOIN Assignments A
+ON E.employee_id = A.employee_id
+
+WHERE A.project_id IN
+(
+SELECT project_id
+FROM Assignments
+WHERE employee_id = 101
+)
+
+AND E.employee_id <> 101;
+
+
+18. Calculate the total number of employees assigned to each Project, but only include projects that have more than 5 employees assigned.
+
+
+SELECT P.project_name,
+COUNT(A.employee_id) AS Total_Employees
+
+FROM Projects P
+JOIN Assignments A
+ON P.project_id = A.project_id
+ 
+GROUP BY P.project_name
+HAVING COUNT(A.employee_id) > 5;
