@@ -1,0 +1,175 @@
+package CRUD;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class CRUD_Test {
+
+    public static void main(String[] args) {
+
+        CRUD_Test objTest=new CRUD_Test();
+
+        // insert
+        objTest.create_data(
+        "1","jinu","jinu@gmail.com");
+
+        objTest.create_data(
+        "2","jawad","jawad@gmail.com");
+
+        // read
+        objTest.read_data();
+
+        // update
+        objTest.update_data(
+        "2","22",
+        "jawad2",
+        "jawad2@gmail");
+
+        // delete
+        objTest.delete_data("1");
+    }
+
+    public void create_data(
+    String sl_no,
+    String name,
+    String email){
+
+        DB_Connection obj=
+        new DB_Connection();
+
+        Connection connection=
+        obj.get_connection();
+
+        try {
+
+            String query=
+            "insert into user(sl_no,name,email) values (?,?,?)";
+
+            PreparedStatement ps=
+            connection.prepareStatement(query);
+
+            ps.setString(1,sl_no);
+            ps.setString(2,name);
+            ps.setString(3,email);
+
+            ps.executeUpdate();
+
+            System.out.println(
+            "Data inserted");
+
+        } catch(Exception e){
+
+            System.out.println(e);
+        }
+    }
+
+    public void read_data(){
+
+        DB_Connection obj=
+        new DB_Connection();
+
+        Connection connection=
+        obj.get_connection();
+
+        try {
+
+            String query=
+            "select * from user";
+
+            PreparedStatement ps=
+            connection.prepareStatement(query);
+
+            ResultSet rs=
+            ps.executeQuery();
+
+            while(rs.next()){
+
+                System.out.println(
+                "Sl no - "+
+                rs.getString("sl_no"));
+
+                System.out.println(
+                "name - "+
+                rs.getString("name"));
+
+                System.out.println(
+                "email - "+
+                rs.getString("email"));
+
+                System.out.println(
+                "---------------");
+            }
+
+        } catch(Exception e){
+
+            System.out.println(e);
+        }
+    }
+
+    public void update_data(
+    String sl_no,
+    String new_sl_no,
+    String name,
+    String email){
+
+        DB_Connection obj=
+        new DB_Connection();
+
+        Connection connection=
+        obj.get_connection();
+
+        try {
+
+            String query=
+            "update user set sl_no=?,name=?,email=? where sl_no=?";
+
+            PreparedStatement ps=
+            connection.prepareStatement(query);
+
+            ps.setString(1,new_sl_no);
+            ps.setString(2,name);
+            ps.setString(3,email);
+            ps.setString(4,sl_no);
+
+            ps.executeUpdate();
+
+            System.out.println(
+            "Data updated");
+
+        } catch(Exception e){
+
+            System.out.println(e);
+        }
+    }
+
+    public void delete_data(
+    String sl_no){
+
+        DB_Connection obj=
+        new DB_Connection();
+
+        Connection connection=
+        obj.get_connection();
+
+        try {
+
+            String query=
+            "delete from user where sl_no=?";
+
+            PreparedStatement ps=
+            connection.prepareStatement(query);
+
+            ps.setString(1,sl_no);
+
+            ps.executeUpdate();
+
+            System.out.println(
+            "Data deleted");
+
+        } catch(Exception e){
+
+            System.out.println(e);
+        }
+    }
+}
