@@ -1,0 +1,488 @@
+use CollegeDB
+switched to db CollegeDB
+db.sales.countDocuments()
+10
+db.sales.countDocuments()
+10
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' }
+]
+db.sales.createIndex({ item: 1 })
+item_1
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' }
+]
+db.sales.find({
+  item: "Americanos"
+}).explain("executionStats")
+{
+        advanced: 4,
+        needTime: 0,
+        needYield: 0,
+        saveState: 0,
+        restoreState: 0,
+        isEOF: 1,
+        nss: 'CollegeDB.sales',
+        keyPattern: {
+          item: 1
+        },
+        indexName: 'item_1',
+        isMultiKey: false,
+        multiKeyPaths: {
+          item: []
+        },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: {
+          item: [
+            '["Americanos", "Americanos"]'
+          ]
+        },
+        keysExamined: 4,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0,
+        peakTrackedMemBytes: 0
+      }
+    }
+  },
+  queryShapeHash: '6FF4A263BCFA9D03F2854D2AB9B9421BBC9C36ED2C217852AFBCA4677532A696',
+  command: {
+    find: 'sales',
+    filter: {
+      item: 'Americanos'
+    },
+    '$db': 'CollegeDB'
+  },
+  serverInfo: {
+    host: 'CSEKHUSHI',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+CollegeDB
+use CollegeDB
+switched to db CollegeDB
+db.users.insertMany([
+   { email: "john@test.com", name: "john" },
+   { email: "jane@test.com", name: "jane" }
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2421266a99bddedfb5f492'),
+    '1': ObjectId('6a2421266a99bddedfb5f493')
+  }
+}
+db.users.find()
+{
+  _id: ObjectId('6a2421266a99bddedfb5f492'),
+  email: 'john@test.com',
+  name: 'john'
+}
+{
+  _id: ObjectId('6a2421266a99bddedfb5f493'),
+  email: 'jane@test.com',
+  name: 'jane'
+}
+db.users.createIndex(
+   { email: 1 },
+   { unique: true }
+)
+email_1
+db.users.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { email: 1 }, name: 'email_1', unique: true }
+]
+db.users.insertOne({
+   email: "john@test.com",
+   name: "johny"
+})
+MongoServerError: E11000 duplicate key error collection: CollegeDB.users index: email_1 dup key: { email: "john@test.com" }
+db.locations.insertOne({
+   address: "Downtown San Jose",
+   lat: 37.335480,
+   long: -121.893028
+})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a24218a6a99bddedfb5f495')
+}
+db.locations.createIndex(
+   {
+      lat: 1,
+      long: 1
+   },
+   {
+      unique: true
+   }
+)
+lat_1_long_1
+db.locations.insertOne({
+   address: "Dev Bootcamp",
+   lat: 37.335480,
+   long: -122.893028
+})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a2421a16a99bddedfb5f496')
+}
+db.locations.insertOne({
+   address: "Central San Jose",
+   lat: 37.335480,
+   long: -121.893028
+})
+MongoServerError: E11000 duplicate key error collection: CollegeDB.locations index: lat_1_long_1 dup key: { lat: 37.33548, long: -121.893028 }
+CollegeDB
+
+
+use CollegeDB
+switched to db CollegeDB
+db.sales.find()
+{
+  _id: 1,
+  item: 'Americanos',
+  price: 5,
+  size: 'Short',
+  quantity: 22,
+  date: 2022-01-15T08:00:00.000Z
+}
+{
+  _id: 2,
+  item: 'Cappuccino',
+  price: 6,
+  size: 'Short',
+  quantity: 12,
+  date: 2022-01-16T09:00:00.000Z
+}
+{
+  _id: 3,
+  item: 'Lattes',
+  price: 15,
+  size: 'Grande',
+  quantity: 25,
+  date: 2022-01-16T09:05:00.000Z
+}
+{
+  _id: 4,
+  item: 'Mochas',
+  price: 25,
+  size: 'Tall',
+  quantity: 11,
+  date: 2022-02-17T08:00:00.000Z
+}
+{
+  _id: 5,
+  item: 'Americanos',
+  price: 10,
+  size: 'Grande',
+  quantity: 12,
+  date: 2022-02-18T21:06:00.000Z
+}
+{
+  _id: 6,
+  item: 'Cappuccino',
+  price: 7,
+  size: 'Tall',
+  quantity: 20,
+  date: 2022-02-20T10:07:00.000Z
+}
+{
+  _id: 7,
+  item: 'Lattes',
+  price: 25,
+  size: 'Tall',
+  quantity: 30,
+  date: 2022-02-21T10:08:00.000Z
+}
+{
+  _id: 8,
+  item: 'Americanos',
+  price: 10,
+  size: 'Grande',
+  quantity: 21,
+  date: 2022-02-22T14:09:00.000Z
+}
+{
+  _id: 9,
+  item: 'Cappuccino',
+  price: 10,
+  size: 'Grande',
+  quantity: 17,
+  date: 2022-02-23T14:09:00.000Z
+}
+{
+  _id: 10,
+  item: 'Americanos',
+  price: 8,
+  size: 'Tall',
+  quantity: 15,
+  date: 2022-02-25T14:09:00.000Z
+}
+db.sales.createIndex({
+   item: 1,
+   quantity: 1
+})
+item_1_quantity_1
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { item: 1, quantity: 1 }, name: 'item_1_quantity_1' }
+]
+db.sales.find({
+   item: "Americanos",
+   quantity: 22
+}).explain("executionStats")
+{
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: {
+          item: [
+            '["Americanos", "Americanos"]'
+          ],
+          quantity: [
+            '[22, 22]'
+          ]
+        },
+        keysExamined: 1,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0,
+        peakTrackedMemBytes: 0
+      }
+    }
+  },
+  queryShapeHash: '57616B19083F07DEF2BB616D9656D4641ACBEADC1C9F5FB46602A437CEDCE974',
+  command: {
+    find: 'sales',
+    filter: {
+      item: 'Americanos',
+      quantity: 22
+    },
+    '$db': 'CollegeDB'
+  },
+  serverInfo: {
+    host: 'CSEKHUSHI',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+db.sales.find({
+   item: "Americanos"
+}).explain("executionStats")
+{
+        },
+        indexName: 'item_1',
+        isMultiKey: false,
+        multiKeyPaths: {
+          item: []
+        },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: {
+          item: [
+            '["Americanos", "Americanos"]'
+          ]
+        },
+        keysExamined: 4,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0,
+        peakTrackedMemBytes: 0
+      }
+    }
+  },
+  queryShapeHash: '6FF4A263BCFA9D03F2854D2AB9B9421BBC9C36ED2C217852AFBCA4677532A696',
+  command: {
+    find: 'sales',
+    filter: {
+      item: 'Americanos'
+    },
+    '$db': 'CollegeDB'
+  },
+  serverInfo: {
+    host: 'CSEKHUSHI',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+IXSCAN
+ReferenceError: IXSCAN is not defined
+db.sales.find({
+   quantity: 22
+}).explain("executionStats")
+{
+      stage: 'COLLSCAN',
+      filter: {
+        quantity: {
+          '$eq': 22
+        }
+      },
+      nss: 'CollegeDB.sales',
+      direction: 'forward'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 1,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 10,
+    executionStages: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: {
+        quantity: {
+          '$eq': 22
+        }
+      },
+      nReturned: 1,
+      executionTimeMillisEstimate: 0,
+      works: 11,
+      advanced: 1,
+      needTime: 9,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      nss: 'CollegeDB.sales',
+      direction: 'forward',
+      docsExamined: 10
+    }
+  },
+  queryShapeHash: 'EB279C6D01F2EFED3A7617BB120CF5B1C603C17C6966DC5F8D8165432C1EC3D8',
+  command: {
+    find: 'sales',
+    filter: {
+      quantity: 22
+    },
+    '$db': 'CollegeDB'
+  },
+  serverInfo: {
+    host: 'CSEKHUSHI',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+CollegeDB
+
+
+use CollegeDB
+switched to db CollegeDB
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { item: 1, quantity: 1 }, name: 'item_1_quantity_1' }
+]
+db.sales.createIndex({ price: 1 })
+price_1
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { item: 1, quantity: 1 }, name: 'item_1_quantity_1' },
+  { v: 2, key: { price: 1 }, name: 'price_1' }
+]
+db.sales.dropIndex("price_1")
+{ nIndexesWas: 4, ok: 1 }
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { item: 1, quantity: 1 }, name: 'item_1_quantity_1' }
+]
+db.sales.createIndex({ price: -1 })
+price_-1
+db.sales.dropIndex({ price: -1 })
+{ nIndexesWas: 4, ok: 1 }
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { item: 1, quantity: 1 }, name: 'item_1_quantity_1' }
+]
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { item: 1, quantity: 1 }, name: 'item_1_quantity_1' }
+]
+CollegeDB
+
+
+
+
+
