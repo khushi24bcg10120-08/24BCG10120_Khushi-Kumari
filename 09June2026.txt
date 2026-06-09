@@ -1,0 +1,100 @@
+rs.initiate({
+  _id: "myReplSet",
+  members: [
+    { _id: 0, host: "127.0.0.1:27017" },
+    { _id: 1, host: "127.0.0.1:27018" },
+    { _id: 2, host: "127.0.0.1:27019" }
+  ]
+})
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781024301, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781024301, i: 1 })
+}
+rs.status()
+{
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: '127.0.0.1:27018',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 52,
+      optime: { ts: Timestamp({ t: 1781024343, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1781024343, i: 1 }), t: Long('1') },
+      optimeWritten: { ts: Timestamp({ t: 1781024343, i: 1 }), t: Long('1') },
+      optimeDate: 2026-06-09T16:59:03.000Z,
+      optimeDurableDate: 2026-06-09T16:59:03.000Z,
+      optimeWrittenDate: 2026-06-09T16:59:03.000Z,
+      lastAppliedWallTime: 2026-06-09T16:59:13.456Z,
+      lastDurableWallTime: 2026-06-09T16:59:13.456Z,
+      lastWrittenWallTime: 2026-06-09T16:59:13.456Z,
+      lastHeartbeat: 2026-06-09T16:59:13.441Z,
+      lastHeartbeatRecv: 2026-06-09T16:59:12.488Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: '127.0.0.1:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    },
+    {
+      _id: 2,
+      name: '127.0.0.1:27019',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 52,
+      optime: { ts: Timestamp({ t: 1781024343, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1781024343, i: 1 }), t: Long('1') },
+      optimeWritten: { ts: Timestamp({ t: 1781024343, i: 1 }), t: Long('1') },
+      optimeDate: 2026-06-09T16:59:03.000Z,
+      optimeDurableDate: 2026-06-09T16:59:03.000Z,
+      optimeWrittenDate: 2026-06-09T16:59:03.000Z,
+      lastAppliedWallTime: 2026-06-09T16:59:13.456Z,
+      lastDurableWallTime: 2026-06-09T16:59:13.456Z,
+      lastWrittenWallTime: 2026-06-09T16:59:13.456Z,
+      lastHeartbeat: 2026-06-09T16:59:13.441Z,
+      lastHeartbeatRecv: 2026-06-09T16:59:12.523Z,
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: '127.0.0.1:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1781024353, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1781024353, i: 1 })
+}
+use college
+
+db.students.insertOne({
+  name: "Khushi",
+  branch: "CSE",
+  semester: 4
+})
+switched to db college
+db.students.find()
+myReplSet [direct: primary] college
+
+
